@@ -1,0 +1,9 @@
+<ul>
+   <% if(fruits.length > 0) { %>
+        <% for(fruit of fruits){ %>
+            <li><%= fruit %></li>
+        <% } %>
+    <% } else { %>
+        <li style="color: red;">Cannot find fruits!</li>
+    <% } %>
+</ul>

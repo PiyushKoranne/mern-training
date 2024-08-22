@@ -1,0 +1,80 @@
+<table>
+    <thead>
+        <th>Profile</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Job</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        <% if(allPersons.length > 0) { %>
+            <% for(let person of allPersons) { %>
+                <tr>
+                    <td><img src="/<%= person.profilePic ? person.profilePic.includes('.pdf') ? 'avatar.jpg' : person.profilePic : 'avatar.jpg' %>" width="30" height="30" alt=""></td>
+                    <td><%= person.name %></td>
+                    <td><%= person.age %></td>
+                    <td><%= person.job %></td>
+                    <td>
+                        <button onclick="deletePerson('<%= person._id %>')" style="background-color: rgb(187, 7, 109);color: white;">Delete</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <form id="update-form" style="display: flex;flex-direction: column;gap: 10px;" action="/person/update-person" method="post">
+                                    <input type="hidden" name="personId" value="<%= person._id %>" id="">
+                                    <label for="">Name</label>
+                                    <input type="text" value="<%= person.name %>" name="name">
+                                    <label for="">Age</label>
+                                    <input type="number" value="<%= person.age %>" name="age">
+                                    <label for="">Job</label>
+                                    <input type="text" value="<%= person.job %>" name="job">
+                                    <label for="">Project Name</label>
+                                    <input type="text" value="<%= person.projects[0].name %>" name="projectName">
+                                    <label for="">Technology</label>
+                                    <input type="text" value="<%= person.projects[0].technology %>" name="tech">
+                                  </form>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <button type="submit" form="update-form" class="btn btn-primary">Save changes</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </td>
+                </tr>
+            <% } %>
+        <% } else { %>
+            <tr>
+                <td colspan="5">No data found!</td>
+            </tr>
+        <% } %>
+    </tbody>
+</table>
+
+<script>
+
+    function handleSubmit(e){
+        e.preventDefault();
+        console.log("Updating data",e.target);
+    }
+
+    function deletePerson(personId) {
+        fetch('http://localhost:4000/person/delete-person', {
+            method:"post",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({personId: personId})
+        })
+        .then(res => res.json())
+        .then(data => {
+            window.location.reload()
+        })
+    }
+</script>

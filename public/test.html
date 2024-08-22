@@ -6,6 +6,15 @@
     <title>Document</title>
 </head>
 <body>
-    <div>Hello from public html file</div>
+    <div>Add Data to Database</div>
+    <form action="/form-add" method="post" enctype="application/x-www-form-urlencoded">
+        <label for="">Subject</label>
+        <input type="text" name="subject"><br/>
+        <label for="">Marks</label>
+        <input type="number" name="marks"><br/>
+        <label for="">Passed</label>
+        <input type="checkbox" name="isPass">
+        <input type="submit">
+    </form>
 </body>
 </html>
